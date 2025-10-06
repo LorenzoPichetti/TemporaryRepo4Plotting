@@ -175,7 +175,7 @@ def make_target_plots(df, grid, matrix, outdir):
 
 
 
-def main(csvfile, outdir="internode_plots"):
+def main(csvfile, outdir="internode"):
     Path(outdir).mkdir(exist_ok=True)
 
     df = load_data(csvfile)
@@ -185,8 +185,8 @@ def main(csvfile, outdir="internode_plots"):
 
     # Loop over dataset = {matrix, grid}
     for (matrix, grid), dsub in df.groupby(["matrix", "grid"]):
-        make_barplot(dsub, grid, matrix, outdir)
-        make_target_plots(dsub, grid, matrix, outdir)
+        make_barplot(dsub, grid, matrix, "matrix_" + outdir)
+        make_target_plots(dsub, grid, matrix, "rank_" + outdir)
 
 if __name__ == "__main__":
     main("new_internode.csv")

@@ -1,0 +1,4 @@
+*.png
+.kdev4/*
+
+heatmaps/
