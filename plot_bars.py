@@ -30,11 +30,20 @@ def parse_params(filename):
 import matplotlib.patches as mpatches
 
 def make_barplot(df, grid, matrix, outdir):
-    # Average over rounds
-    dfavg = df.groupby(["process", "config"], as_index=False)[["compression", "communication"]].sum()
+    # ----- Aggregation phase -----
+    # Step 1: average over rounds
+    df_roundavg = df.groupby(
+        ["process", "target", "operand", "config"], as_index=False
+    )[["compression", "communication"]].mean()
+
+    # Step 2: sum over targets (keeping process/operand/config)
+    df_sum = df_roundavg.groupby(
+        ["process", "operand", "config"], as_index=False
+    )[["compression", "communication"]].sum()
+    # -----------------------------
 
     # Get order of processes and configs
-    proc_order = sorted(dfavg["process"].unique(), key=int)
+    proc_order = sorted(df_sum["process"].unique(), key=int)
     config_order = ["--impl get", "--impl main", "--impl main --Acsc", "--impl main --Acsc --spcomm"]
 
     # Prepare bar positions
@@ -48,7 +57,7 @@ def make_barplot(df, grid, matrix, outdir):
     cmap = plt.get_cmap("tab10")  # categorical palette
 
     for i, cfg in enumerate(config_order):
-        dcfg = dfavg[dfavg["config"] == cfg]
+        dcfg = df_sum[df_sum["config"] == cfg]
         # align with proc_order
         y_comp = [dcfg.loc[dcfg["process"] == p, "compression"].values[0] if p in dcfg["process"].values else 0 for p in proc_order]
         y_comm = [dcfg.loc[dcfg["process"] == p, "communication"].values[0] if p in dcfg["process"].values else 0 for p in proc_order]
