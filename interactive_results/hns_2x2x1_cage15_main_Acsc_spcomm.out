@@ -1,0 +1,549 @@
+[36m----Running HnS-SpGEMM----[0m
+A matrix file path: /global/cfs/cdirs/m4646/hnsspgemm/datasets/known_squaring_nnz/vanHeukelum/cage15/cage15.bmtx
+B matrix file path: /global/cfs/cdirs/m4646/hnsspgemm/datasets/known_squaring_nnz/vanHeukelum/cage15/cage15.bmtx
+Number of processes per row: 2
+Number of processes per col: 2
+Number of processes per node: 1
+Chosen implementation: main(main use MPI_Put)
+A stored in CSC format: 1
+Spcomm enabled: 1 (It require --Acsc)
+         col 0          col 1          
+       ------------------- ------------------- 
+row 0  | Node0 [0  ]     | Node0 [1  ]     |
+       ------------------- ------------------- 
+row 1  | Node0 [2  ]     | Node0 [3  ]     |
+       ------------------- ------------------- 
+Beginning conversion
+Done conversion
+[96m<Timer>[spacomm] 56.556709 ms[0m
+Beginning spgemm -- implementation: main
+STARTING spgemm round: 0
+Iteration 0
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 934.779480 ms[0m
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 934.466492 ms[0m
+Iteration 1
+[96m<[process 0]>[internode_comm] n=2,avg=484.594788,stddev=639.302307,min=32.539776,max=936.649780,sum=969.189575[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=0.751552,stddev=0.403130,min=0.466496,max=1.036608,sum=1.503104[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002768,stddev=0.000023,min=0.002752,max=0.002784,sum=0.005536[0m
+[96m<[process 0]>[A_conversion] n=2,avg=13.811424,stddev=16.604136,min=2.070528,max=25.552320,sum=27.622849[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 65.856544 ms[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 66.844063 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 25.712160 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 24.104544 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=631.811401,stddev=798.569275,min=67.137634,max=1196.485107,sum=1263.622803[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=0.649520,stddev=0.085464,min=0.589088,max=0.709952,sum=1.299040[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002832,stddev=0.000023,min=0.002816,max=0.002848,sum=0.005664[0m
+[96m<[process 2]>[A_conversion] n=2,avg=5.534576,stddev=5.244651,min=1.826048,max=9.243104,sum=11.069152[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 65.904800 ms[0m
+[96m<[p 1, t 1, m B]>[compression_time] 54.900799 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 20.791616 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 25.593184 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=628.613586,stddev=789.910095,min=70.062782,max=1187.164429,sum=1257.227173[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=0.564800,stddev=0.145721,min=0.461760,max=0.667840,sum=1.129600[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002752,stddev=0.000000,min=0.002752,max=0.002752,sum=0.005504[0m
+[96m<[process 1]>[A_conversion] n=2,avg=5.090336,stddev=2.321708,min=3.448640,max=6.732032,sum=10.180672[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 1180.782471 ms[0m
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 1180.868652 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 70.808990 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 41.754463 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=313.138214,stddev=378.901733,min=45.214241,max=581.062195,sum=626.276428[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.847776,stddev=0.450783,min=0.529024,max=1.166528,sum=1.695552[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002768,stddev=0.000023,min=0.002752,max=0.002784,sum=0.005536[0m
+[96m<[process 3]>[A_conversion] n=2,avg=312.428925,stddev=431.690979,min=7.177280,max=617.680542,sum=624.857849[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 52.447903 ms[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 58.877121 ms[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 320.768585 ms[0m
+STARTING spgemm round: 1
+Iteration 0
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 52.472801 ms[0m
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 51.611614 ms[0m
+Iteration 1
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 55.779202 ms[0m
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 55.372162 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 69.157860 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 39.250881 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=62.600910,stddev=30.692438,min=40.898079,max=84.303741,sum=125.201820[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.820272,stddev=0.446281,min=0.504704,max=1.135840,sum=1.640544[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002784,stddev=0.000045,min=0.002752,max=0.002816,sum=0.005568[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.428320,stddev=3.397959,min=2.025600,max=6.831040,sum=8.856640[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 50.567074 ms[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 42.235073 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=59.119408,stddev=5.302804,min=55.369759,max=62.869057,sum=118.238815[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=23.143520,stddev=23.984610,min=6.183840,max=40.103199,sum=46.287041[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002560,stddev=0.000317,min=0.002336,max=0.002784,sum=0.005120[0m
+[96m<[process 0]>[A_conversion] n=2,avg=13.870512,stddev=1.553259,min=12.772192,max=14.968832,sum=27.741024[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 48.005344 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 48.071648 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 34.222591 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 24.561344 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=84.604225,stddev=16.370844,min=73.028290,max=96.180161,sum=169.208450[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=1.057808,stddev=0.200411,min=0.916096,max=1.199520,sum=2.115616[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002560,stddev=0.000317,min=0.002336,max=0.002784,sum=0.005120[0m
+[96m<[process 2]>[A_conversion] n=2,avg=11.468081,stddev=13.932629,min=1.616224,max=21.319937,sum=22.936161[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 42.117249 ms[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 41.127682 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 28.783104 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 21.327265 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=84.640915,stddev=8.254325,min=78.804222,max=90.477600,sum=169.281830[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=4.427312,stddev=5.580215,min=0.481504,max=8.373120,sum=8.854625[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002752,stddev=0.000000,min=0.002752,max=0.002752,sum=0.005504[0m
+[96m<[process 1]>[A_conversion] n=2,avg=7.660640,stddev=6.174344,min=3.294720,max=12.026560,sum=15.321280[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 122.891029 ms[0m
+STARTING spgemm round: 2
+Iteration 0
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 53.734718 ms[0m
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 40.953087 ms[0m
+Iteration 1
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 58.162048 ms[0m
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 58.214241 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 68.392418 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 69.368095 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=76.943100,stddev=8.412511,min=70.994560,max=82.891647,sum=153.886200[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.814016,stddev=0.463364,min=0.486368,max=1.141664,sum=1.628032[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002752,stddev=0.000000,min=0.002752,max=0.002752,sum=0.005504[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.539952,stddev=3.199902,min=2.277280,max=6.802624,sum=9.079905[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 55.137505 ms[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 48.523743 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=54.449249,stddev=15.330847,min=43.608704,max=65.289795,sum=108.898499[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=16.662241,stddev=20.766628,min=1.978016,max=31.346464,sum=33.324482[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002576,stddev=0.000339,min=0.002336,max=0.002816,sum=0.005152[0m
+[96m<[process 0]>[A_conversion] n=2,avg=15.917711,stddev=13.700245,min=6.230176,max=25.605247,sum=31.835423[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 62.457825 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 68.382111 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 38.038593 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 21.132128 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=86.331215,stddev=19.773397,min=72.349312,max=100.313118,sum=172.662430[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=4.623600,stddev=5.176542,min=0.963232,max=8.283968,sum=9.247200[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002336,stddev=0.000000,min=0.002336,max=0.002336,sum=0.004672[0m
+[96m<[process 2]>[A_conversion] n=2,avg=8.314992,stddev=9.511413,min=1.589408,max=15.040576,sum=16.629984[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 35.159775 ms[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 46.077122 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 32.920319 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 22.180704 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=81.599335,stddev=6.937703,min=76.693634,max=86.505028,sum=163.198669[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=4.750192,stddev=6.059328,min=0.465600,max=9.034784,sum=9.500384[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002736,stddev=0.000023,min=0.002720,max=0.002752,sum=0.005472[0m
+[96m<[process 1]>[A_conversion] n=2,avg=8.529232,stddev=7.393124,min=3.301504,max=13.756960,sum=17.058464[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 133.757858 ms[0m
+STARTING spgemm round: 3
+Iteration 0
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 58.900257 ms[0m
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 51.683006 ms[0m
+Iteration 1
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 53.854111 ms[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 60.595264 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 69.784576 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 40.836895 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=59.037823,stddev=23.182827,min=42.645088,max=75.430557,sum=118.075645[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.816848,stddev=0.468229,min=0.485760,max=1.147936,sum=1.633696[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002784,stddev=0.000000,min=0.002784,max=0.002784,sum=0.005568[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.508688,stddev=3.314985,min=2.164640,max=6.852736,sum=9.017376[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 58.944065 ms[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 43.900703 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=59.646160,stddev=2.456407,min=57.909218,max=61.383102,sum=119.292320[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=15.511728,stddev=19.937086,min=1.414080,max=29.609377,sum=31.023457[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002544,stddev=0.000294,min=0.002336,max=0.002752,sum=0.005088[0m
+[96m<[process 0]>[A_conversion] n=2,avg=17.494720,stddev=13.244326,min=8.129568,max=26.859873,sum=34.989441[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 46.512959 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 46.559902 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 34.460960 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 21.989569 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=79.462662,stddev=9.874469,min=72.480354,max=86.444962,sum=158.925323[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=4.427824,stddev=4.934383,min=0.938688,max=7.916960,sum=8.855648[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002816,stddev=0.000000,min=0.002816,max=0.002816,sum=0.005632[0m
+[96m<[process 2]>[A_conversion] n=2,avg=7.605920,stddev=8.396174,min=1.668928,max=13.542912,sum=15.211840[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 45.260769 ms[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 41.130848 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 27.874912 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 21.591681 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=79.585541,stddev=3.347682,min=77.218369,max=81.952705,sum=159.171082[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=4.361664,stddev=5.403427,min=0.540864,max=8.182464,sum=8.723328[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002784,stddev=0.000045,min=0.002752,max=0.002816,sum=0.005568[0m
+[96m<[process 1]>[A_conversion] n=2,avg=2.508720,stddev=0.993185,min=1.806432,max=3.211008,sum=5.017440[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 120.396828 ms[0m
+STARTING spgemm round: 4
+Iteration 0
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 51.947712 ms[0m
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 52.248768 ms[0m
+Iteration 1
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 53.613312 ms[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 54.100834 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 57.176064 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 40.477089 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=58.463039,stddev=23.628815,min=41.754944,max=75.171135,sum=116.926079[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.945888,stddev=0.641940,min=0.491968,max=1.399808,sum=1.891776[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002784,stddev=0.000000,min=0.002784,max=0.002784,sum=0.005568[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.713440,stddev=3.788644,min=2.034464,max=7.392416,sum=9.426880[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 42.361313 ms[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 42.985825 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 34.154369 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 21.877439 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=88.787025,stddev=15.950720,min=77.508163,max=100.065887,sum=177.574051[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=1.199712,stddev=0.861381,min=0.590624,max=1.808800,sum=2.399424[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002736,stddev=0.000023,min=0.002720,max=0.002752,sum=0.005472[0m
+[96m<[process 1]>[A_conversion] n=2,avg=6.837696,stddev=5.233315,min=3.137184,max=10.538208,sum=13.675392[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 55.174175 ms[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 49.845280 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=65.096626,stddev=12.820715,min=56.031010,max=74.162239,sum=130.193253[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=14.993680,stddev=18.948359,min=1.595168,max=28.392193,sum=29.987360[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002576,stddev=0.000339,min=0.002336,max=0.002816,sum=0.005152[0m
+[96m<[process 0]>[A_conversion] n=2,avg=16.113935,stddev=14.373455,min=5.950368,max=26.277504,sum=32.227871[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 39.152000 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 41.749474 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 45.794048 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 29.728128 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=81.037537,stddev=3.997496,min=78.210876,max=83.864189,sum=162.075073[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=4.882544,stddev=5.904557,min=0.707392,max=9.057696,sum=9.765088[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002800,stddev=0.000023,min=0.002784,max=0.002816,sum=0.005600[0m
+[96m<[process 2]>[A_conversion] n=2,avg=7.847168,stddev=9.156184,min=1.372768,max=14.321568,sum=15.694336[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 136.969589 ms[0m
+STARTING spgemm round: 5
+Iteration 0
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 54.289440 ms[0m
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 54.901951 ms[0m
+Iteration 1
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 57.918560 ms[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 65.131935 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 57.994591 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 40.521664 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=61.170418,stddev=28.127350,min=41.281376,max=81.059456,sum=122.340836[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.814896,stddev=0.458273,min=0.490848,max=1.138944,sum=1.629792[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002752,stddev=0.000000,min=0.002752,max=0.002752,sum=0.005504[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.567920,stddev=3.197231,min=2.307136,max=6.828704,sum=9.135839[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 70.991714 ms[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 47.278751 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=65.159218,stddev=11.612141,min=56.948193,max=73.370239,sum=130.318436[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=10.249904,stddev=12.552628,min=1.373856,max=19.125952,sum=20.499807[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002576,stddev=0.000294,min=0.002368,max=0.002784,sum=0.005152[0m
+[96m<[process 0]>[A_conversion] n=2,avg=16.806591,stddev=14.175353,min=6.783104,max=26.830080,sum=33.613182[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 52.959423 ms[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 53.013695 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 34.243713 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 21.315296 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=86.489662,stddev=1.417968,min=85.487007,max=87.492317,sum=172.979324[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=4.806928,stddev=5.492059,min=0.923456,max=8.690400,sum=9.613856[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002912,stddev=0.000136,min=0.002816,max=0.003008,sum=0.005824[0m
+[96m<[process 2]>[A_conversion] n=2,avg=8.042048,stddev=9.124008,min=1.590400,max=14.493696,sum=16.084097[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 44.278400 ms[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 45.834946 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 28.046080 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 22.115040 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=87.055908,stddev=4.287218,min=84.024384,max=90.087425,sum=174.111816[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=5.011472,stddev=6.437206,min=0.459680,max=9.563264,sum=10.022943[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002784,stddev=0.000000,min=0.002784,max=0.002784,sum=0.005568[0m
+[96m<[process 1]>[A_conversion] n=2,avg=7.464672,stddev=5.906706,min=3.288000,max=11.641344,sum=14.929344[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 135.162781 ms[0m
+STARTING spgemm round: 6
+Iteration 0
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 50.953121 ms[0m
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 50.964672 ms[0m
+Iteration 1
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 53.561024 ms[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 54.362591 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 72.092064 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 43.789505 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=55.106575,stddev=14.174696,min=45.083553,max=65.129601,sum=110.213150[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.817200,stddev=0.454200,min=0.496032,max=1.138368,sum=1.634400[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002752,stddev=0.000000,min=0.002752,max=0.002752,sum=0.005504[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.559072,stddev=3.218343,min=2.283360,max=6.834784,sum=9.118144[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 62.976479 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=63.277519,stddev=14.195833,min=53.239552,max=73.315491,sum=126.555038[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=7.192928,stddev=7.847822,min=1.643680,max=12.742176,sum=14.385856[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.010128,stddev=0.010295,min=0.002848,max=0.017408,sum=0.020256[0m
+[96m<[process 0]>[A_conversion] n=2,avg=15.564465,stddev=13.286616,min=6.169408,max=24.959520,sum=31.128929[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 53.078014 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 53.115040 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 36.022591 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 20.761120 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=79.859566,stddev=15.364899,min=68.994942,max=90.724190,sum=159.719131[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=10.524608,stddev=13.940118,min=0.667456,max=20.381760,sum=21.049215[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002560,stddev=0.000362,min=0.002304,max=0.002816,sum=0.005120[0m
+[96m<[process 2]>[A_conversion] n=2,avg=8.492784,stddev=9.485209,min=1.785728,max=15.199840,sum=16.985567[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 44.133472 ms[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 43.142975 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 30.783039 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 22.644064 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=84.366638,stddev=2.485782,min=82.608925,max=86.124352,sum=168.733276[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=4.352112,stddev=5.486900,min=0.472288,max=8.231936,sum=8.704225[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002768,stddev=0.000023,min=0.002752,max=0.002784,sum=0.005536[0m
+[96m<[process 1]>[A_conversion] n=2,avg=7.784656,stddev=5.966148,min=3.565952,max=12.003360,sum=15.569312[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 44.524673 ms[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 138.153793 ms[0m
+STARTING spgemm round: 7
+Iteration 0
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 52.703808 ms[0m
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 52.726719 ms[0m
+Iteration 1
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 63.300224 ms[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 45.267296 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 75.074623 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 75.628189 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=73.411987,stddev=5.853241,min=69.273117,max=77.550850,sum=146.823975[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.868736,stddev=0.379779,min=0.600192,max=1.137280,sum=1.737472[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002752,stddev=0.000000,min=0.002752,max=0.002752,sum=0.005504[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.842752,stddev=3.686142,min=2.236256,max=7.449248,sum=9.685504[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 38.857407 ms[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 77.591904 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=62.714001,stddev=10.723340,min=55.131454,max=70.296547,sum=125.428001[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=10.774384,stddev=13.813654,min=1.006656,max=20.542112,sum=21.548769[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002784,stddev=0.000045,min=0.002752,max=0.002816,sum=0.005568[0m
+[96m<[process 0]>[A_conversion] n=2,avg=22.007679,stddev=23.337059,min=5.505888,max=38.509472,sum=44.015358[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 64.167587 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 63.180702 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 38.275745 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 22.234016 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=83.537537,stddev=25.085070,min=65.799713,max=101.275360,sum=167.075073[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=3.882544,stddev=4.378745,min=0.786304,max=6.978784,sum=7.765088[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002800,stddev=0.000023,min=0.002784,max=0.002816,sum=0.005600[0m
+[96m<[process 2]>[A_conversion] n=2,avg=8.357488,stddev=9.336502,min=1.755584,max=14.959392,sum=16.714975[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 43.274784 ms[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 42.826942 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 27.728031 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 21.299232 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=87.897034,stddev=0.110491,min=87.818909,max=87.975166,sum=175.794067[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=2.481568,stddev=2.854675,min=0.463008,max=4.500128,sum=4.963136[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002640,stddev=0.000113,min=0.002560,max=0.002720,sum=0.005280[0m
+[96m<[process 1]>[A_conversion] n=2,avg=5.557008,stddev=2.928101,min=3.486528,max=7.627488,sum=11.114016[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 133.575638 ms[0m
+STARTING spgemm round: 8
+Iteration 0
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 40.930847 ms[0m
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 53.935104 ms[0m
+Iteration 1
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 42.104546 ms[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 65.183556 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 65.947166 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 40.780735 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=54.059029,stddev=15.772284,min=42.906338,max=65.211716,sum=108.118057[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.845568,stddev=0.505949,min=0.487808,max=1.203328,sum=1.691136[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002768,stddev=0.000023,min=0.002752,max=0.002784,sum=0.005536[0m
+[96m<[process 3]>[A_conversion] n=2,avg=9.918096,stddev=4.284795,min=6.888288,max=12.947904,sum=19.836191[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 65.196701 ms[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 53.720062 ms[0m
+[96m<[process 0]>[internode_comm] n=2,avg=51.314850,stddev=5.928021,min=47.123104,max=55.506592,sum=102.629700[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=49.876289,stddev=68.284660,min=1.591744,max=98.160835,sum=99.752579[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.002928,stddev=0.000158,min=0.002816,max=0.003040,sum=0.005856[0m
+[96m<[process 0]>[A_conversion] n=2,avg=17.038624,stddev=15.112761,min=6.352288,max=27.724960,sum=34.077248[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 50.474529 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 41.791649 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 36.217087 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 21.054399 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=119.836098,stddev=64.928246,min=73.924896,max=165.747299,sum=239.672195[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=2.935472,stddev=3.208500,min=0.666720,max=5.204224,sum=5.870944[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002576,stddev=0.000339,min=0.002336,max=0.002816,sum=0.005152[0m
+[96m<[process 2]>[A_conversion] n=2,avg=12.876256,stddev=10.426533,min=5.503584,max=20.248928,sum=25.752512[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 43.580318 ms[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 42.905632 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 34.790817 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 21.173920 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=127.117889,stddev=56.393730,min=87.241501,max=166.994278,sum=254.235779[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=5.416272,stddev=6.990672,min=0.473120,max=10.359424,sum=10.832543[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.003248,stddev=0.001335,min=0.002304,max=0.004192,sum=0.006496[0m
+[96m<[process 1]>[A_conversion] n=2,avg=9.273360,stddev=2.678385,min=7.379456,max=11.167264,sum=18.546721[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 223.566986 ms[0m
+STARTING spgemm round: 9
+Iteration 0
+<[p 0, t 0, m A]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m A]>[compression_time] 56.400608 ms[0m
+<[p 0, t 0, m B]> Comp-rate: 41620846,41620846,1.000000
+[96m<[p 0, t 0, m B]>[compression_time] 56.428673 ms[0m
+Iteration 1
+<[p 3, t 0, m A]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m A]>[compression_time] 57.401505 ms[0m
+<[p 3, t 0, m B]> Comp-rate: 53425565,9740985,0.182328
+[96m<[p 3, t 0, m B]>[compression_time] 64.000420 ms[0m
+<[p 3, t 1, m A]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m A]>[compression_time] 69.390846 ms[0m
+<[p 3, t 1, m B]> Comp-rate: 53425565,53425565,1.000000
+[96m<[p 3, t 1, m B]>[compression_time] 69.262306 ms[0m
+[96m<[process 3]>[internode_comm] n=2,avg=77.219360,stddev=7.702960,min=71.772545,max=82.666176,sum=154.438721[0m
+[96m<[process 3]>[intranode_comm] n=2,avg=0.831856,stddev=0.475832,min=0.495392,max=1.168320,sum=1.663712[0m
+[96m<[process 3]>[comp_time] n=2,avg=0.002816,stddev=0.000045,min=0.002784,max=0.002848,sum=0.005632[0m
+[96m<[process 3]>[A_conversion] n=2,avg=4.566128,stddev=3.273169,min=2.251648,max=6.880608,sum=9.132256[0m
+[96m<[process 0]>[internode_comm] n=2,avg=55.329170,stddev=6.528845,min=50.712578,max=59.945759,sum=110.658340[0m
+[96m<[process 0]>[intranode_comm] n=2,avg=14.038992,stddev=18.307911,min=1.093344,max=26.984640,sum=28.077984[0m
+[96m<[process 0]>[comp_time] n=2,avg=0.011216,stddev=0.011970,min=0.002752,max=0.019680,sum=0.022432[0m
+[96m<[process 0]>[A_conversion] n=2,avg=4.434000,stddev=3.348292,min=2.066400,max=6.801600,sum=8.868000[0m
+<[p 2, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m A]>[compression_time] 52.809250 ms[0m
+<[p 2, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 1, m B]>[compression_time] 51.858143 ms[0m
+<[p 2, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m B]>[compression_time] 38.625183 ms[0m
+<[p 2, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 2, t 0, m A]>[compression_time] 21.316193 ms[0m
+[96m<[process 2]>[internode_comm] n=2,avg=86.037354,stddev=5.761098,min=81.963646,max=90.111069,sum=172.074707[0m
+[96m<[process 2]>[intranode_comm] n=2,avg=6.312432,stddev=7.871060,min=0.746752,max=11.878112,sum=12.624864[0m
+[96m<[process 2]>[comp_time] n=2,avg=0.002560,stddev=0.000317,min=0.002336,max=0.002784,sum=0.005120[0m
+[96m<[process 2]>[A_conversion] n=2,avg=8.221760,stddev=8.804735,min=1.995872,max=14.447648,sum=16.443520[0m
+<[p 1, t 1, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m A]>[compression_time] 44.252865 ms[0m
+<[p 1, t 1, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 1, m B]>[compression_time] 42.528736 ms[0m
+<[p 1, t 0, m A]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m A]>[compression_time] 39.346497 ms[0m
+<[p 1, t 0, m B]> Comp-rate: 2076570,2076570,1.000000
+[96m<[p 1, t 0, m B]>[compression_time] 26.748159 ms[0m
+[96m<[process 1]>[internode_comm] n=2,avg=86.685410,stddev=5.183218,min=83.020317,max=90.350494,sum=173.370819[0m
+[96m<[process 1]>[intranode_comm] n=2,avg=6.160928,stddev=8.022460,min=0.488192,max=11.833664,sum=12.321856[0m
+[96m<[process 1]>[comp_time] n=2,avg=0.002528,stddev=0.000317,min=0.002304,max=0.002752,sum=0.005056[0m
+[96m<[process 1]>[A_conversion] n=2,avg=9.394897,stddev=8.181780,min=3.609504,max=15.180288,sum=18.789793[0m
+<[p 0, t 1, m A]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m A]>[compression_time] 52.224094 ms[0m
+<[p 0, t 1, m B]> Comp-rate: 41620846,17670594,0.424561
+[96m<[p 0, t 1, m B]>[compression_time] 71.437027 ms[0m
+NNZ C: 0
+[96m<Timer>[spgemm] 139.773270 ms[0m

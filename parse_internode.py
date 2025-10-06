@@ -1,0 +1,74 @@
+import re
+import csv
+import sys
+from pathlib import Path
+
+def sanitize(line: str) -> str:
+    line = re.sub(r'^\x1b\[[0-9;]*m', '', line)
+    line = re.sub(r'\x1b\[0m$', '', line)
+    return line.strip()
+
+def parse_file(filepath: Path):
+    results = []
+    run_i = -1
+
+    with open(filepath, "r") as f:
+        for raw in f:
+            line = sanitize(raw)
+
+            if line.startswith("STARTING spgemm round"):
+                run_i += 1
+
+            # Internode communication
+            # m = re.match(r'<\[process (\d+)\]>\[internode_comm\] n=(\d+),avg=.+,stddev=.+,min=.+,max=.+,sum=(.+)', line)
+            m = re.match(r'<\[p (\d+), t (\d+), m ([AB])\]>\[internode_comm\(comp\+comm\)\] ([0-9.]+) ms, ([0-9.]+) ms', line)
+            if m:
+                # rank, iteration, sum = m.groups()
+                # results.append({
+                #     "file": filepath.name,
+                #     "round": run_i,
+                #     "iteration": iteration,
+                #     "process": int(rank),
+                #     "value": float(sum)
+                # })
+                rank, target, mat, comptime, commtime = m.groups()
+                results.append({
+                    "file": filepath.name,
+                    "round": run_i,
+                    "process": int(rank),
+                    "target": int(target),
+                    "metric": "internode_time",
+                    "operand": mat,
+                    "compression": float(comptime),
+                    "communication": float(commtime)
+                })
+
+    # if results:
+    #     max_iter = max(r["iteration"] for r in results)
+    #     results = [r for r in results if r["iteration"] == max_iter]
+
+    return results
+
+def main(input_dir: str, output_csv: str):
+    input_path = Path(input_dir)
+    all_results = []
+
+    for file in input_path.glob("*.out"):
+        print("processing file ", file)
+        all_results.extend(parse_file(file))
+
+    keys = ["file", "round", "process", "target", "metric", "operand", "compression", "communication"]
+
+    with open(output_csv, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=keys)
+        writer.writeheader()
+        writer.writerows(all_results)
+
+    print(f"Saved internode results to {output_csv}")
+
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Usage: python parse_internode.py <input_dir> <output_csv>")
+        sys.exit(1)
+    main(sys.argv[1], sys.argv[2])
+
