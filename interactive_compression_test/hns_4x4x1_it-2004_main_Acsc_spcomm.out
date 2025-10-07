@@ -1,9 +1,0 @@
-[36m----Running HnS-SpGEMM----[0m
-A matrix file path: /global/cfs/cdirs/m4646/hnsspgemm/datasets/known_squaring_nnz/LAW/it-2004/it-2004.bmtx
-B matrix file path: /global/cfs/cdirs/m4646/hnsspgemm/datasets/known_squaring_nnz/LAW/it-2004/it-2004.bmtx
-Number of processes per row: 4
-Number of processes per col: 4
-Number of processes per node: 1
-Chosen implementation: main(main use MPI_Put)
-A stored in CSC format: 1
-Spcomm enabled: 1 (It require --Acsc)

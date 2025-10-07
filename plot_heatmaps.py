@@ -66,7 +66,7 @@ def make_heatmap(df, metric, matrix, gridrows, gridcols, dataset, outfile):
     plt.close()
 
 
-def main(csvfile, outdir="heatmaps"):
+def main(csvfile, outdir="compression"):
     df = load_data(csvfile)
     Path(outdir).mkdir(exist_ok=True)
 

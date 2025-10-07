@@ -13,7 +13,7 @@ def merge_plots(dataset, grid, outdir="overall"):
     outdir.mkdir(exist_ok=True)
 
     # Input folders
-    heatdir = Path("heatmaps")
+    heatdir = Path("compression")
     rankdir = Path("rank_internode")
     matdir  = Path("matrix_internode")
 
