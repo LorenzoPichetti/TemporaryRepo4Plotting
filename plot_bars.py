@@ -14,10 +14,10 @@ def parse_params(filename):
       hns_{grid}_{matrix}_{impl}_{Acsc}_{spcomm}.out
     Return (grid, matrix, config_string).
     """
-    m = re.match(r"hns_([^_]+)_(\w+)_(\w+)_(\w+)_(\w+)\.out", filename)
+    m = re.match(r"hns_([^_]+)_(\w+)_(\w+)_(\w+)_(\w+)_(\w+)\.out", filename)
     if not m:
         return None, None, "unknown"
-    grid, matrix, impl, acsc, spcomm = m.groups()
+    grid, matrix, impl, acsc, spcomm, skip = m.groups()
 
     parts = [f"--impl {impl}"]
     if acsc != "none":
@@ -25,11 +25,16 @@ def parse_params(filename):
     if spcomm != "none":
         parts.append("--spcomm")
 
-    return grid, matrix, " ".join(parts)
+    if skip != "none":
+        compute_type = "skip computation"
+    else:
+        compute_type = "kokkos computation"
+
+    return grid, matrix, " ".join(parts), compute_type
 
 import matplotlib.patches as mpatches
 
-def make_barplot(df, grid, matrix, outdir):
+def make_barplot(df, grid, matrix, outdir, compute):
     # ----- Aggregation phase -----
     # Step 1: average over rounds
     df_roundavg = df.groupby(
@@ -75,7 +80,7 @@ def make_barplot(df, grid, matrix, outdir):
     plt.xticks(x, proc_order)
     plt.xlabel("MPI process rank")
     plt.ylabel("Aggregated time (ms)")
-    plt.title(f"Internode communication - {matrix} ({grid})")
+    plt.title(f"Internode communication - {matrix} ({grid}) - {compute}")
     plt.tight_layout()
 
     # Build legends
@@ -100,7 +105,7 @@ def make_barplot(df, grid, matrix, outdir):
     plt.close()
 
 
-def make_target_plots(df, grid, matrix, outdir):
+def make_target_plots(df, grid, matrix, outdir, compute):
     """
     For each process rank:
       - x-axis = combined operand+target (e.g., A0, A1, ..., B0, B1, ...)
@@ -155,7 +160,7 @@ def make_target_plots(df, grid, matrix, outdir):
         plt.xticks(x, xticks, rotation=45)
         plt.xlabel("Operand + Target process")
         plt.ylabel("Average time")
-        plt.title(f"Process {proc} - Internode comm breakdown ({grid})")
+        plt.title(f"Process {proc} - Internode comm breakdown ({grid}) - {compute}")
         plt.tight_layout()
 
         # Legends
@@ -179,15 +184,15 @@ def main(csvfile, outdir="internode"):
     Path(outdir).mkdir(exist_ok=True)
 
     df = load_data(csvfile)
-    df[["grid", "matrix", "config"]] = df["file"].apply(
+    df[["grid", "matrix", "config", "compute"]] = df["file"].apply(
         lambda f: pd.Series(parse_params(f))
     )
 
     # Loop over dataset = {matrix, grid}
-    for (matrix, grid), dsub in df.groupby(["matrix", "grid"]):
-        make_barplot(dsub, grid, matrix, "matrix_" + outdir)
-        make_target_plots(dsub, grid, matrix, "rank_" + outdir)
+    for (matrix, grid, compute), dsub in df.groupby(["matrix", "grid", "compute"]):
+        make_barplot(dsub, grid, matrix, "matrix_" + outdir, compute)
+        make_target_plots(dsub, grid, matrix, "rank_" + outdir, compute)
 
 if __name__ == "__main__":
-    main("new_internode.csv")
+    main("internode.csv")
 

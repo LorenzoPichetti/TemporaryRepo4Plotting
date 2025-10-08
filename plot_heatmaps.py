@@ -83,5 +83,5 @@ def main(csvfile, outdir="compression"):
                 make_heatmap(dfile, metric, matrix, gridrows, gridcols, dataset, Path(outdir)/outname)
 
 if __name__ == "__main__":
-    main("new_compression.csv")
+    main("compression.csv")
 
