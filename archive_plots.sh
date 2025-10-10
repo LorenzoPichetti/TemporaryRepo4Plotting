@@ -8,7 +8,8 @@ if [ $# -lt 1 ]; then
 fi
 
 # First argument
-destination="${1}"
+mkdir -p archive/
+destination="archive/${1}"
 
 mkdir -p ${destination}
 cp -r compression/ ${destination}

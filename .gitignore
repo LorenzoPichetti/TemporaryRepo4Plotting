@@ -1,6 +1,8 @@
 *.png
 .kdev4/*
 
+archive/*
+input_data/*
 new_interactive_test_*
 2d_spcomm_*
 internode_plots_compute/*
