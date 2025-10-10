@@ -8,6 +8,8 @@ from pathlib import Path
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 
+config_order = ["--impl get", "--impl main", "--impl main --Acsc", "--impl main --Acsc --spcomm"]
+
 def load_data(csvfile):
     return pd.read_csv(csvfile)
 
@@ -35,26 +37,39 @@ def parse_params(filename):
 
     return grid, matrix, " ".join(parts), compute_type
 
-
-def make_barplot(df, grid, matrix, outdir, compute):
+def preprocess_dataframe(df):
     # ----- Aggregation phase -----
-    # Step 0: drop all rows where round == 0
+    # Step 0: drop all rows where round == 0 (warm-up)
     df_filtered = df[df["round"] != 0]
 
-    # Step 1: average over rounds
+    # Step 1: consistency check
+    check = df_filtered.groupby(
+        ["process", "target", "operand", "config"]
+    )[["orig_size", "compressed_size"]].nunique()
+
+    bad = check[(check["orig_size"] > 1) | (check["compressed_size"] > 1)]
+    if not bad.empty:
+        raise ValueError(f"Inconsistent orig/compressed sizes detected:\n{bad}")
+
+    # Step 2: average over rounds
     df_roundavg = df_filtered.groupby(
         ["process", "target", "operand", "config"], as_index=False
-    )[["compression", "communication"]].mean()
+    )[["compression", "communication", "orig_size", "compressed_size"]].mean()
+    # Due to the previous test, we know that the mean of "orig_size" and "compressed_size"
+    # is exactly the unique value in these fields (i.e. variance 0).
 
-    # Step 2: sum over targets (keeping process/operand/config)
+    # Step 3: sum over targets (keeping process/operand/config)
     df_sum = df_roundavg.groupby(
         ["process", "operand", "config"], as_index=False
     )[["compression", "communication"]].sum()
     # -----------------------------
 
+    return df_roundavg, df_sum
+
+def make_barplot(df_sum, grid, matrix, outdir, compute):
+
     # Get order of processes and configs
     proc_order = sorted(df_sum["process"].unique(), key=int)
-    config_order = ["--impl get", "--impl main", "--impl main --Acsc", "--impl main --Acsc --spcomm"]
 
     # Prepare bar positions
     import numpy as np
@@ -110,7 +125,7 @@ def make_barplot(df, grid, matrix, outdir, compute):
     plt.close()
 
 
-def make_target_plots(df, grid, matrix, outdir, compute):
+def make_target_plots(dfavg, grid, matrix, outdir, compute):
     """
     For each process rank and operand (A or B):
       - x-axis = target process
@@ -119,26 +134,8 @@ def make_target_plots(df, grid, matrix, outdir, compute):
       - secondary y-axis = orig_size and compressed_size line plots
     """
 
-    # Step 0: remove round 0
-    df_filtered = df[df["round"] != 0]
-
-    # Step 0.5: consistency check
-    check = df_filtered.groupby(
-        ["process", "target", "operand", "config"]
-    )[["orig_size", "compressed_size"]].nunique()
-
-    bad = check[(check["orig_size"] > 1) | (check["compressed_size"] > 1)]
-    if not bad.empty:
-        raise ValueError(f"Inconsistent orig/compressed sizes detected:\n{bad}")
-
-    # Step 1: average over rounds
-    dfavg = df_filtered.groupby(
-        ["process", "target", "operand", "config"], as_index=False
-    )[["compression", "communication", "orig_size", "compressed_size"]].mean()
-
     proc_order = sorted(dfavg["process"].unique(), key=int)
     target_order = sorted(dfavg["target"].unique(), key=int)
-    config_order = ["--impl get", "--impl main", "--impl main --Acsc", "--impl main --Acsc --spcomm"]
     cmap = plt.get_cmap("tab10")
 
     for proc in proc_order:
@@ -208,11 +205,68 @@ def make_target_plots(df, grid, matrix, outdir, compute):
             plt.savefig(outfile, bbox_inches="tight")
             plt.close()
 
+def human_readable_size(num_bytes, suffix="B"):
+    """
+    Convert a size in bytes to a human-readable string
+    using binary units (KiB, MiB, GiB, ...).
+    """
+    for unit in ["", "K", "M", "G", "T", "P", "E", "Z"]:
+        if abs(num_bytes) < 1024.0:
+            return f"{num_bytes:3.1f} {unit}{suffix}"
+        num_bytes /= 1024.0
+    return f"{num_bytes:.1f} Y{suffix}"  # for very large sizes
 
+
+def make_heatmap(df, operand, gridrows, gridcols, dataset, outfile):
+    """
+    df: filtered dataframe for given dataset (matrix + gridsize)
+    metric: 'comp_rate' or 'comp_time'
+    matrix: 'A' or 'B'
+    """
+
+    # Build square matrices
+    valmat   = np.full((gridrows, gridcols), np.nan)
+    byteorig = np.full((gridrows, gridcols), "", dtype=object)
+    bytecomp = np.full((gridrows, gridcols), "", dtype=object)
+
+    for _, row in df.iterrows():
+        i = int(row["process"] // gridcols)
+        j = int(row["process"] %  gridcols)
+        byteorig[i, j] = human_readable_size(int(row["orig_size"]))
+        bytecomp[i, j] = human_readable_size(int(row["compressed_size"]))
+        if (row["orig_size"] != 0):
+            valmat[i, j] = row["compressed_size"] / row["orig_size"]
+        else:
+            valmat[i, j] = 1.0
+
+    # Labels: combine ratio + size
+    labels = np.empty_like(valmat, dtype=object)
+    for i in range(gridrows):
+        for j in range(gridcols):
+            if not np.isnan(valmat[i, j]):
+                labels[i, j] = f"{valmat[i,j]:.2f}\n{byteorig[i,j]}-{bytecomp[i,j]}"
+            else:
+                labels[i, j] = ""
+
+    # Plot heatmap with only `ratio` driving colors
+    plt.figure(figsize=(8, 6))
+    mylabel = "rate in [0.0-1.1] + orig_size-comp_size in (on both lower is better)"
+    sns.heatmap(valmat, annot=labels, fmt="", cmap="viridis",
+                cbar_kws={'label': mylabel}, linewidths=0.5, linecolor="gray")
+
+    plt.title(f"{dataset} {gridrows}x{gridcols} - average compression (Operand {operand})")
+    plt.xlabel("Target process")
+    plt.ylabel("Source process")
+    plt.tight_layout()
+    plt.savefig(outfile)
+    plt.close()
 
 
 def main(csvfile, outdir="internode"):
     Path(outdir).mkdir(exist_ok=True)
+
+    compressionoutdir="compression"
+    Path(compressionoutdir).mkdir(exist_ok=True)
 
     df = load_data(csvfile)
     df[["grid", "matrix", "config", "compute"]] = df["file"].apply(
@@ -221,8 +275,20 @@ def main(csvfile, outdir="internode"):
 
     # Loop over dataset = {matrix, grid}
     for (matrix, grid, compute), dsub in df.groupby(["matrix", "grid", "compute"]):
-        make_barplot(dsub, grid, matrix, "matrix_" + outdir, compute)
-        make_target_plots(dsub, grid, matrix, "rank_" + outdir, compute)
+        dfavg, df_sum = preprocess_dataframe(dsub)
+        make_barplot(df_sum, grid, matrix, "matrix_" + outdir, compute)
+        make_target_plots(dfavg, grid, matrix, "rank_" + outdir, compute)
+
+
+        m = re.match(r"(\d+)x(\d+)x\d+", grid)
+        if not m:
+            return None, None
+        gridrows, gridcols = m.groups()
+
+        for operand in ["A", "B"]:
+            dsub = dfavg[dfavg["operand"] == operand]
+            outname = f"{matrix}_{grid}_M{operand}.png"
+            make_heatmap(dsub, operand, int(gridrows), int(gridcols), matrix, Path(compressionoutdir)/outname)
 
 if __name__ == "__main__":
     main("internode.csv")

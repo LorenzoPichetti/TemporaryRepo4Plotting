@@ -2,6 +2,16 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from PIL import Image
 import numpy as np
+import re
+
+def extract_rank(fname):
+    """
+    Extract the process number from filenames like:
+    "cage15_process0_operandA_4x4x1_targets"
+    """
+    # Match 'process' followed by one or more digits
+    m = re.search(r'process(\d+)', fname)
+    return int(m.group(1)) if m else -1  # fallback if not found
 
 def merge_plots(dataset, grid, outdir="overall"):
     """
@@ -19,13 +29,15 @@ def merge_plots(dataset, grid, outdir="overall"):
     matdir  = Path("matrix_internode")
 
     # Collect images
+    heatA_file     = heatdir / f"{dataset}_{grid}_MA.png"
+    heatB_file     = heatdir / f"{dataset}_{grid}_MB.png"
     internode_file = matdir  / f"{dataset}_{grid}_barplot.png"
-    heatA_file     = heatdir / f"{dataset}_{grid}_comp_rate_MA.png"
-    heatB_file     = heatdir / f"{dataset}_{grid}_comp_rate_MB.png"
 
     # Rank plots for A and B
     rankA_files = sorted(rankdir.glob(f"{dataset}_process*_operandA_{grid}_targets.png"))
     rankB_files = sorted(rankdir.glob(f"{dataset}_process*_operandB_{grid}_targets.png"))
+    rankA_files = sorted(rankA_files, key=lambda p: extract_rank(str(p)))
+    rankB_files = sorted(rankB_files, key=lambda p: extract_rank(str(p)))
 
     # Load as PIL images
     def load_img(path):
