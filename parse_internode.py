@@ -20,18 +20,9 @@ def parse_file(filepath: Path):
                 run_i += 1
 
             # Internode communication
-            # m = re.match(r'<\[process (\d+)\]>\[internode_comm\] n=(\d+),avg=.+,stddev=.+,min=.+,max=.+,sum=(.+)', line)
-            m = re.match(r'<\[p (\d+), t (\d+), m ([AB])\]>\[internode_comm\(comp\+comm\)\] ([0-9.]+) ms, ([0-9.]+) ms', line)
+            m = re.match(r'<\[p (\d+), t (\d+), m ([AB])\]>\[internode_comm\(comp\+comm\+size\)\] ([0-9.]+) ms, ([0-9.]+) ms, (\d+) B, (\d+) B', line)
             if m:
-                # rank, iteration, sum = m.groups()
-                # results.append({
-                #     "file": filepath.name,
-                #     "round": run_i,
-                #     "iteration": iteration,
-                #     "process": int(rank),
-                #     "value": float(sum)
-                # })
-                rank, target, mat, comptime, commtime = m.groups()
+                rank, target, mat, comptime, commtime, origsize, compsize = m.groups()
                 results.append({
                     "file": filepath.name,
                     "round": run_i,
@@ -40,12 +31,10 @@ def parse_file(filepath: Path):
                     "metric": "internode_time",
                     "operand": mat,
                     "compression": float(comptime),
-                    "communication": float(commtime)
+                    "communication": float(commtime),
+                    "orig_size": int(origsize),
+                    "compressed_size": int(compsize)
                 })
-
-    # if results:
-    #     max_iter = max(r["iteration"] for r in results)
-    #     results = [r for r in results if r["iteration"] == max_iter]
 
     return results
 
@@ -57,7 +46,7 @@ def main(input_dir: str, output_csv: str):
         print("processing file ", file)
         all_results.extend(parse_file(file))
 
-    keys = ["file", "round", "process", "target", "metric", "operand", "compression", "communication"]
+    keys = ["file", "round", "process", "target", "metric", "operand", "compression", "communication", "orig_size", "compressed_size"]
 
     with open(output_csv, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=keys)

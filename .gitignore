@@ -1,6 +1,9 @@
 *.png
 .kdev4/*
 
+new_interactive_test_*
+2d_spcomm_*
+internode_plots_compute/*
 mallocfree_*
 heatmaps/*
 *.csv

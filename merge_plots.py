@@ -7,7 +7,8 @@ def merge_plots(dataset, grid, outdir="overall"):
     """
     Merge:
       - Top row: matrix_internode plot (left) + heatmaps A/B (right)
-      - Bottom: all rank_intranode plots for this dataset
+      - Bottom: rank_intranode plots laid out in two grids:
+        first all operand A plots, then operand B plots
     """
     outdir = Path(outdir)
     outdir.mkdir(exist_ok=True)
@@ -21,7 +22,10 @@ def merge_plots(dataset, grid, outdir="overall"):
     internode_file = matdir  / f"{dataset}_{grid}_barplot.png"
     heatA_file     = heatdir / f"{dataset}_{grid}_comp_rate_MA.png"
     heatB_file     = heatdir / f"{dataset}_{grid}_comp_rate_MB.png"
-    rank_files     = sorted(rankdir.glob(f"{dataset}_process*_{grid}_targets.png"))
+
+    # Rank plots for A and B
+    rankA_files = sorted(rankdir.glob(f"{dataset}_process*_operandA_{grid}_targets.png"))
+    rankB_files = sorted(rankdir.glob(f"{dataset}_process*_operandB_{grid}_targets.png"))
 
     # Load as PIL images
     def load_img(path):
@@ -32,7 +36,8 @@ def merge_plots(dataset, grid, outdir="overall"):
     internode_img = load_img(internode_file)
     heatA_img     = load_img(heatA_file)
     heatB_img     = load_img(heatB_file)
-    rank_imgs     = [load_img(f) for f in rank_files if load_img(f) is not None]
+    rankA_imgs    = [load_img(f) for f in rankA_files if load_img(f) is not None]
+    rankB_imgs    = [load_img(f) for f in rankB_files if load_img(f) is not None]
 
     # Safety check
     if internode_img is None or heatA_img is None or heatB_img is None:
@@ -40,7 +45,7 @@ def merge_plots(dataset, grid, outdir="overall"):
         return
 
     # --- Build figure ---
-    fig = plt.figure(figsize=(50, 30), constrained_layout=True)
+    fig = plt.figure(figsize=(50, 50), constrained_layout=True)
 
     # Use subfigures: top for internode+heatmaps, bottom for ranks
     subfigs = fig.subfigures(2, 1, height_ratios=[1, 2])
@@ -66,47 +71,60 @@ def merge_plots(dataset, grid, outdir="overall"):
     ax2.set_title("Heatmaps (A / B)")
 
     # ------------------- BOTTOM -------------------
-    if rank_imgs:
+    if rankA_imgs or rankB_imgs:
         try:
             gridrows, gridcols = map(int, grid.split("x")[:2])
         except Exception:
-            gridrows, gridcols = 1, len(rank_imgs)  # fallback
+            gridrows, gridcols = 1, max(len(rankA_imgs), len(rankB_imgs))  # fallback
 
-        nplots = len(rank_imgs)
-        nrows = int(np.ceil(nplots / gridcols))
+        nprocs = max(len(rankA_imgs), len(rankB_imgs))
+        nrows_per_operand = int(np.ceil(nprocs / gridcols))
+        total_rows = 2 * nrows_per_operand  # A block + B block
 
-        axs = subfigs[1].subplots(nrows, gridcols)
-        axs = np.atleast_2d(axs)
+        axs = subfigs[1].subplots(total_rows, gridcols, squeeze=False)
 
-        for i, img in enumerate(rank_imgs):
+        # Fill block A
+        for i, img in enumerate(rankA_imgs):
             r, c = divmod(i, gridcols)
             axs[r, c].imshow(img)
             axs[r, c].axis("off")
-            axs[r, c].set_title(f"Rank {i}")
-
-        # Hide unused slots
-        for j in range(len(rank_imgs), nrows*gridcols):
+            axs[r, c].set_title(f"Rank {i} (A)")
+        for j in range(len(rankA_imgs), nrows_per_operand * gridcols):
             r, c = divmod(j, gridcols)
             axs[r, c].axis("off")
+
+        # Fill block B (shifted down by nrows_per_operand)
+        for i, img in enumerate(rankB_imgs):
+            r, c = divmod(i, gridcols)
+            r += nrows_per_operand
+            axs[r, c].imshow(img)
+            axs[r, c].axis("off")
+            axs[r, c].set_title(f"Rank {i} (B)")
+        for j in range(len(rankB_imgs), nrows_per_operand * gridcols):
+            r, c = divmod(j, gridcols)
+            r += nrows_per_operand
+            axs[r, c].axis("off")
+
     else:
         print(f"No rank_intranode plots for {dataset} {grid}.")
 
     # ------------------- SAVE -------------------
-    fig.suptitle(f"Summary plots for {dataset} {grid}", fontsize=16)
+    fig.suptitle(f"Summary plots for {dataset} {grid}", fontsize=20)
     outfile = outdir / f"{dataset}_{grid}_summary.png"
     plt.savefig(outfile, bbox_inches="tight", dpi=100)
     plt.close()
     print(f"Saved {outfile}")
 
 
-
 def main():
-    # Example datasets (replace with actual loop over your matrices and grids)
-    datasets = [("nlpkkt160", "4x4x1"), ("cage15", "4x4x1"), ("HV15R", "4x4x1"), ("dielFilterV3real", "4x4x1"), ("ldoor", "4x4x1")]
+    datasets = [("nlpkkt160", "4x4x1"),
+                ("cage15", "4x4x1"),
+                ("HV15R", "4x4x1"),
+                ("dielFilterV3real", "4x4x1"),
+                ("ldoor", "4x4x1")]
     for dataset, grid in datasets:
         merge_plots(dataset, grid)
 
 
 if __name__ == "__main__":
     main()
-

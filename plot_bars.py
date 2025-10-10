@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import re
 from pathlib import Path
 
+import matplotlib.patches as mpatches
+from matplotlib.lines import Line2D
+
 def load_data(csvfile):
     return pd.read_csv(csvfile)
 
@@ -32,12 +35,14 @@ def parse_params(filename):
 
     return grid, matrix, " ".join(parts), compute_type
 
-import matplotlib.patches as mpatches
 
 def make_barplot(df, grid, matrix, outdir, compute):
     # ----- Aggregation phase -----
+    # Step 0: drop all rows where round == 0
+    df_filtered = df[df["round"] != 0]
+
     # Step 1: average over rounds
-    df_roundavg = df.groupby(
+    df_roundavg = df_filtered.groupby(
         ["process", "target", "operand", "config"], as_index=False
     )[["compression", "communication"]].mean()
 
@@ -107,14 +112,29 @@ def make_barplot(df, grid, matrix, outdir, compute):
 
 def make_target_plots(df, grid, matrix, outdir, compute):
     """
-    For each process rank:
-      - x-axis = combined operand+target (e.g., A0, A1, ..., B0, B1, ...)
-      - for each tick, multiple bars = different configs
+    For each process rank and operand (A or B):
+      - x-axis = target process
+      - grouped bars for different configs
       - bars stacked into communication + compression
+      - secondary y-axis = orig_size and compressed_size line plots
     """
 
-    # Average over rounds
-    dfavg = df.groupby(["process", "target", "operand", "config"], as_index=False)[["compression", "communication"]].mean()
+    # Step 0: remove round 0
+    df_filtered = df[df["round"] != 0]
+
+    # Step 0.5: consistency check
+    check = df_filtered.groupby(
+        ["process", "target", "operand", "config"]
+    )[["orig_size", "compressed_size"]].nunique()
+
+    bad = check[(check["orig_size"] > 1) | (check["compressed_size"] > 1)]
+    if not bad.empty:
+        raise ValueError(f"Inconsistent orig/compressed sizes detected:\n{bad}")
+
+    # Step 1: average over rounds
+    dfavg = df_filtered.groupby(
+        ["process", "target", "operand", "config"], as_index=False
+    )[["compression", "communication", "orig_size", "compressed_size"]].mean()
 
     proc_order = sorted(dfavg["process"].unique(), key=int)
     target_order = sorted(dfavg["target"].unique(), key=int)
@@ -122,26 +142,22 @@ def make_target_plots(df, grid, matrix, outdir, compute):
     cmap = plt.get_cmap("tab10")
 
     for proc in proc_order:
-        dproc = dfavg[dfavg["process"] == proc]
-
-        # Build combined xtick labels
-        xticks = []
         for op in ["A", "B"]:
-            for t in target_order:
-                xticks.append(f"{op}{t}")
+            dsel = dfavg[(dfavg["process"] == proc) & (dfavg["operand"] == op)]
+            if dsel.empty:
+                continue
 
-        x = np.arange(len(xticks))  # tick positions
-        width = 0.15  # width per config bar
+            x = np.arange(len(target_order))  # tick positions = targets only
+            width = 0.15
 
-        plt.figure(figsize=(14, 6))
+            fig, ax1 = plt.subplots(figsize=(14, 6))
 
-        for i, cfg in enumerate(config_order):
-            dcfg = dproc[dproc["config"] == cfg]
-            y_comm, y_comp = [], []
+            for i, cfg in enumerate(config_order):
+                dcfg = dsel[dsel["config"] == cfg]
+                y_comm, y_comp = [], []
 
-            for op in ["A", "B"]:
                 for t in target_order:
-                    row = dcfg[(dcfg["operand"] == op) & (dcfg["target"] == t)]
+                    row = dcfg[dcfg["target"] == t]
                     if not row.empty:
                         y_comm.append(row["communication"].values[0])
                         y_comp.append(row["compression"].values[0])
@@ -149,34 +165,49 @@ def make_target_plots(df, grid, matrix, outdir, compute):
                         y_comm.append(0)
                         y_comp.append(0)
 
-            xpos = x + i * width - (len(config_order)-1) * width / 2
-            color = cmap(i)
+                xpos = x + i * width - (len(config_order)-1) * width / 2
+                color = cmap(i)
 
-            # Communication
-            plt.bar(xpos, y_comm, width, color=color, edgecolor="black", label=cfg if i == 0 else None)
-            # Compression stacked
-            plt.bar(xpos, y_comp, width, bottom=y_comm, color=color, hatch="///", edgecolor="black")
+                ax1.bar(xpos, y_comm, width, color=color, edgecolor="black", label=cfg if i == 0 else None)
+                ax1.bar(xpos, y_comp, width, bottom=y_comm, color=color, hatch="///", edgecolor="black")
 
-        plt.xticks(x, xticks, rotation=45)
-        plt.xlabel("Operand + Target process")
-        plt.ylabel("Average time")
-        plt.title(f"Process {proc} - Internode comm breakdown ({grid}) - {compute}")
-        plt.tight_layout()
+            # Secondary y-axis for sizes
+            ax2 = ax1.twinx()
+            # Average over configs (sizes should be consistent anyway)
+            size_avg = dsel.groupby("target")[["orig_size", "compressed_size"]].mean().reset_index()
 
-        # Legends
-        config_patches = [mpatches.Patch(color=cmap(i), label=cfg) for i, cfg in enumerate(config_order)]
-        metric_patches = [
-            mpatches.Patch(facecolor="white", edgecolor="black", label="Communication"),
-            mpatches.Patch(facecolor="white", edgecolor="black", hatch="///", label="Compression")
-        ]
+            ax2.plot(x, size_avg["orig_size"], marker="o", color="red", label="orig_size")
+            ax2.plot(x, size_avg["compressed_size"], marker="s", color="blue", label="compressed_size")
 
-        leg1 = plt.legend(handles=config_patches, title="Configuration", loc="upper left", bbox_to_anchor=(1.02, 1))
-        plt.gca().add_artist(leg1)
-        plt.legend(handles=metric_patches, title="Metric", loc="lower left", bbox_to_anchor=(1.02, 0))
+            ax1.set_xticks(x)
+            ax1.set_xticklabels([f"{op}{t}" for t in target_order], rotation=45)
 
-        outfile = Path(outdir) / f"{matrix}_process{proc}_{grid}_targets.png"
-        plt.savefig(outfile, bbox_inches="tight")
-        plt.close()
+            ax1.set_xlabel("Target process")
+            ax1.set_ylabel("Average time")
+            ax2.set_ylabel("Message size (bytes)")
+
+            ax1.set_title(f"Process {proc}, Operand {op} - Internode comm breakdown ({grid}) - {compute}")
+            fig.tight_layout()
+
+            # Legends
+            config_patches = [mpatches.Patch(color=cmap(i), label=cfg) for i, cfg in enumerate(config_order)]
+            metric_patches = [
+                mpatches.Patch(facecolor="white", edgecolor="black", label="Communication"),
+                mpatches.Patch(facecolor="white", edgecolor="black", hatch="///", label="Compression")
+            ]
+            size_lines = [
+                Line2D([0], [0], color="red", marker="o", label="orig_size"),
+                Line2D([0], [0], color="blue", marker="s", label="compressed_size"),
+            ]
+
+            leg1 = ax1.legend(handles=config_patches, title="Configuration", loc="upper left", bbox_to_anchor=(1.02, 1))
+            ax1.add_artist(leg1)
+            leg2 = ax1.legend(handles=metric_patches + size_lines, title="Metric", loc="lower left", bbox_to_anchor=(1.02, 0))
+
+            outfile = Path(outdir) / f"{matrix}_process{proc}_operand{op}_{grid}_targets.png"
+            plt.savefig(outfile, bbox_inches="tight")
+            plt.close()
+
 
 
 

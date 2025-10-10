@@ -20,7 +20,7 @@ def parse_file(filepath: Path):
                 run_i += 1
 
             # Compression rate
-            m = re.match(r'<\[p (\d+), t (\d+), m ([AB])\]> Comp-rate: ([0-9]+),([0-9]+),[0-9.]+', line)
+            m = re.match(r'<\[p (\d+), t (\d+), m ([AB])\]>\[internode_comm\(comp\+comm\+size\)\] [0-9.]+ ms, [0-9.]+ ms, ([0-9]+) B, ([0-9]+) B', line)
             if m:
                 rank, target, mat, startnnz, endnnz = m.groups()
                 results.append({
