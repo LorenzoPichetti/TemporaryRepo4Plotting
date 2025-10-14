@@ -171,7 +171,14 @@ def make_target_plots(dfavg, grid, matrix, outdir, compute):
             # Secondary y-axis for sizes
             ax2 = ax1.twinx()
             # Average over configs (sizes should be consistent anyway)
-            size_avg = dsel.groupby("target")[["orig_size", "compressed_size"]].mean().reset_index()
+            # size_avg = dsel.groupby("target")[["orig_size", "compressed_size"]].mean().reset_index()
+            size_avg = (
+                dsel.groupby("target")[["orig_size", "compressed_size"]]
+                .mean()
+                .reindex(target_order)  # ensure all expected targets exist
+                .fillna(0)              # fill missing targets with 0
+                .reset_index()
+            )
 
             ax2.plot(x, size_avg["orig_size"], marker="o", color="red", label="orig_size")
             ax2.plot(x, size_avg["compressed_size"], marker="s", color="blue", label="compressed_size")
